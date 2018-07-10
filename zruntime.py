@@ -1,4 +1,4 @@
-"""Tools for calculating runtime.
+"""Ways of calculating runtime.
 
 """
 
