@@ -7,18 +7,18 @@ from random import SystemRandom
 
 
 def head(filename, n, encoding='utf8'):
-    '''
-    Return the first n lines of the file as a generator.
-    '''
+    """Return the first n lines of the file as a generator.
+
+    """
     with open(filename, encoding=encoding) as f:
         for _ in range(n):
             yield next(f)
 
 
 def tail(filename, n, encoding='utf8'):
-    '''
-    Return the last n lines of the file as a generator.
-    '''
+    """Return the last n lines of the file as a generator.
+
+    """
     with open(filename, encoding=encoding) as f:
         total_lines = len(f.readlines())
     for i in range(total_lines - n + 1, total_lines + 1):
@@ -26,9 +26,9 @@ def tail(filename, n, encoding='utf8'):
 
 
 def generate_password(length, valid_chars=None):
-    '''
-    Generate a strong random password using SystemRandom class.
-    '''
+    """Generate a strong random password using SystemRandom class.
+
+    """
     sr = SystemRandom()
     if valid_chars == None:
         valid_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'

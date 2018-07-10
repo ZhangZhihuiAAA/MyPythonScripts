@@ -8,9 +8,9 @@ import numpy as np
 
 
 def img_tile(img, n, m=1):
-    """
-    The image "img" will be repeated n times in 
-    vertical and m times in horizontal direction.
+    """The image "img" will be repeated n times in vertical and m times in 
+    horizontal direction.
+    
     """
     if n == 1:
         tiled_img = img

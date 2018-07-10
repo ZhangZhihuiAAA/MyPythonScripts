@@ -23,9 +23,9 @@ class PatternNotFoundError(Exception):
 
 
 def head(filename, n, encoding='utf8'):
-    '''
-    Return the first n lines of the file as a generator.
-    '''
+    """Return the first n lines of the file as a generator.
+
+    """
 
     with open(filename, encoding=encoding) as f:
         for _ in range(n):
@@ -33,9 +33,9 @@ def head(filename, n, encoding='utf8'):
 
 
 def tail(filename, n, encoding='utf8'):
-    '''
-    Return the last n lines of the file as a generator.
-    '''
+    """Return the last n lines of the file as a generator.
+
+    """
 
     with open(filename, encoding=encoding) as f:
         total_lines = len(f.readlines())
@@ -44,9 +44,9 @@ def tail(filename, n, encoding='utf8'):
 
 
 def get_starttime(log_file, n):
-    '''
-    Search the first n lines for the start time and return it as a string.
-    '''
+    """Search the first n lines for the start time and return it as a string.
+
+    """
 
     for line in head(log_file, n):
         match = TIMESTAMP_RE.search(line)
@@ -55,9 +55,9 @@ def get_starttime(log_file, n):
 
 
 def get_finishtime(log_file, n):
-    '''
-    Search the last n lines for the finish time and return it as a string.
-    '''
+    """Search the last n lines for the finish time and return it as a string.
+
+    """
 
     for line in reversed(list(tail(log_file, n))):
         match = TIMESTAMP_RE.search(line)
@@ -66,9 +66,9 @@ def get_finishtime(log_file, n):
 
 
 def get_runtime(starttime, finishtime, timeformat):
-    '''
-    Return a timedelta object. 
-    '''
+    """Return a timedelta object. 
+
+    """
     return datetime.strptime(finishtime, timeformat) - \
            datetime.strptime(starttime, timeformat)
 
