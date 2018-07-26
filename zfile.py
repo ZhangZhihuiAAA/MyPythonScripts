@@ -17,3 +17,10 @@ def unzip(filename, extractdir):
     except FileExistsError:
         pass
     unpack_archive(filename, extract_dir=extractdir)
+
+
+def merge_files(input_files, output_file):
+    with open(output_file, "wb") as outfile:
+        for f in input_files:
+            with open(f, "rb") as infile:
+                outfile.write(infile.read())
