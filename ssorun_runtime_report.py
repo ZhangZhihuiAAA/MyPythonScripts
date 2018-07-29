@@ -2,6 +2,7 @@
 
 """
 
+"""
 import os
 import sys
 import sqlite3
@@ -355,3 +356,4 @@ def send_mail(server, send_from, send_to, subject, text, files=None):
 send_mail(email_server, email_from, email_to, email_subject, email_body, files=email_attachment)
 
 logger.info("All done at " + DT.now().strftime(datetime_format2))
+"""

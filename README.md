@@ -15,6 +15,9 @@
 <pre>sasjob_runtime.py             Calculate runtime of a sas job from its logs.
 
 </pre>
+<pre>ssorun_runtime_report.py      Calculate runtime from sso_run_log.xml files.
+
+</pre>
 <pre>zfile.py                      Tools for processing files.
 
 </pre>

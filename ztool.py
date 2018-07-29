@@ -39,5 +39,3 @@ def send_mail(send_from, send_to, subject, text, files=None,
     smtp = smtplib.SMTP(server)
     smtp.sendmail(send_from, send_to, msg.as_string())
     smtp.close()
-    
-send_mail('replies-disabled@sas.com', ['zhihui.zhang@sas.com'], 'Runtime Reports', 'Please see the attachments.', files=['schedule.html', 'job.html'])

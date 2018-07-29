@@ -2,6 +2,7 @@
 
 """
 
+"""
 import numpy as np
 import pandas as pd
 import os
@@ -89,3 +90,4 @@ sched_runtime_daily.pop('log_full_path')
 sched_runtime_daily = sched_runtime_daily.set_index(['sched_name', 'logdate'])
 sched_runtime_daily = sched_runtime_daily.groupby(level=['sched_name', 'logdate']).agg(np.mean)
 sched_runtime_daily['runtime'] = sched_runtime_daily['runtime'].apply(lambda v: timedelta(microseconds=v/1000))
+"""
