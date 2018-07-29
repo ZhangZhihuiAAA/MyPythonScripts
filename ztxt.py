@@ -43,3 +43,16 @@ def generate_password(length, valid_chars=None):
             password += chr(rnum)
             counter += 1
     return password
+
+
+def replace_str_in_file_with_file(file1, str, file2):
+    f1 = open(file1, 'r')
+    f2 = open(file2, 'r')
+    str_f1 = f1.read()
+    str_f2 = f2.read()
+    str_f1 = str_f1.replace(str, str_f2)
+    f1.close()
+    f2.close()
+    f1 = open(file1, 'w')
+    f1.write(str_f1)
+    f1.close()
