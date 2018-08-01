@@ -49,19 +49,24 @@ email_to = ['zhihui.zhang@sas.com']
 email_subject = TLA + ' ' + ENV + ' Runtime Reports - ' + DT.now().strftime('%m/%d/%Y')
 email_body = 'Please see the attachments.'
 email_attachment = [sched_rpt, job_rpt]
-log_file = 'ssorun_runtime_report.log'
+log = 'ssorun_runtime_report.log'
 
+clear_log = open(log, 'w')
+clear_log.write('')
+clear_log.close()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-handler = logging.FileHandler(log_file)
+handler = logging.FileHandler(log)
 logger.addHandler(handler)
 
 logger.info("Starting stage 1 at " + DT.now().strftime(datetime_format2))
 
 if os.path.exists(sso_runtime_db):
+    init_run = False
     days = normal_days
     conn = sqlite3.connect(sso_runtime_db)
 else:
+    init_run = True
     days = init_days
     conn = sqlite3.connect(sso_runtime_db)
     conn.execute('''
@@ -84,10 +89,10 @@ sso_run_log_files = output.split()
 
 logger.info("Starting stage 2 at " + DT.now().strftime(datetime_format2))
 
-for log_file in sso_run_log_files:
-    conn.execute('DELETE FROM sso_run_log WHERE log_full_path = ?', (log_file,))
+if not init_run:
+    conn.execute('DELETE FROM sso_run_log WHERE log_full_path in ("' + '", "'.join(sso_run_log_files) + '")')
     conn.commit();
-
+for log_file in sso_run_log_files:
     try:
         tree = ET.parse(log_file)
         root = tree.getroot()
@@ -106,14 +111,15 @@ for log_file in sso_run_log_files:
                     e_elapsed = '00:00:00'
                 conn.execute('INSERT INTO sso_run_log VALUES(?, ?, ?, ?, ?, ?, ?)', 
                              (log_file, s_schedule, s_logdate, e_name, e_start_time, e_end_time, e_elapsed))
-        conn.commit()
     except ParseError:
         pass
+conn.commit()
 
 logger.info("Starting stage 3 at " + DT.now().strftime(datetime_format2))
 
-try:
+if not init_run:
     conn.executescript('''
+        DELETE FROM sso_run_log WHERE s_logdate < strftime('%Y%m%d', date('now', '-45 days'));
         DROP TABLE sso_runtime;
         DROP TABLE sched_runtime;
         DROP TABLE sched_runtime_daily;
@@ -122,8 +128,6 @@ try:
         DROP TABLE job_runtime_weekly;
         ''')
     conn.commit()
-except sqlite3.OperationalError:
-    pass
 
 conn.executescript('''
     CREATE TABLE sso_runtime AS
