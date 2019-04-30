@@ -6,9 +6,6 @@
 <pre>batch_tracker.py              Track the performance of ANF batches.
 
 </pre>
-<pre>life_func.py                  Functions that can be used to solve problems in real life.
-
-</pre>
 <pre>runtime_pandas.py             An unfinished version of calculating runtime from sso_run_log.xml files using pandas.
 
 </pre>
@@ -22,9 +19,6 @@
 
 </pre>
 <pre>zfile.py                      Tools for processing files.
-
-</pre>
-<pre>zimg.py                       Tools for processing images.
 
 </pre>
 <pre>zruntime.py                   Ways of calculating runtime.
