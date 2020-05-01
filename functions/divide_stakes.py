@@ -1,6 +1,4 @@
-"""
-Functions that can be used to solve problems in real life.
-"""
+"""Functions that can be used to solve problems in real life."""
 
 from scipy.misc import comb
 

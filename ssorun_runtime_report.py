@@ -1,6 +1,4 @@
-"""Calculate runtime from sso_run_log.xml files.
-
-"""
+"""Calculate runtime from sso_run_log.xml files."""
 
 """
 import os
@@ -24,8 +22,8 @@ TLA = 'ZZH'
 ENV = 'PROD'
 level_1 = 'Schedule'
 level_2 = 'Job'
-sso_run_log_dirs = ['/home/demoscnzzh/logs1', 
-                    '/home/demoscnzzh/logs2', 
+sso_run_log_dirs = ['/home/demoscnzzh/logs1',
+                    '/home/demoscnzzh/logs2',
                     '/home/demoscnzzh/logs3']
 use_long_schedule_name = False # Set to True when schedule files are not in the same location.
 init_days = 43
@@ -109,7 +107,7 @@ for log_file in sso_run_log_files:
                     e_elapsed = entry.get('elapsed')
                 except ExpatError:
                     e_elapsed = '00:00:00'
-                conn.execute('INSERT INTO sso_run_log VALUES(?, ?, ?, ?, ?, ?, ?)', 
+                conn.execute('INSERT INTO sso_run_log VALUES(?, ?, ?, ?, ?, ?, ?)',
                              (log_file, s_schedule, s_logdate, e_name, e_start_time, e_end_time, e_elapsed))
     except ParseError:
         pass
@@ -134,11 +132,11 @@ if not init_run:
 
 conn.executescript('''
     CREATE TABLE sso_runtime AS
-    SELECT log_full_path, 
-           s_schedule AS sched_name, 
-           date(substr(s_logdate, 1, 4) || '-' || substr(s_logdate, 5, 2) || '-' || substr(s_logdate, 7, 2), 'utc', 'localtime') AS logdate, 
-           e_name AS job_name, 
-           datetime(substr(e_start_time, 1, 4) || '-' || substr(e_start_time, 5, 2) || '-' || substr(e_start_time, 7, 2) || ' ' || substr(e_start_time, -8), 'utc', 'localtime') AS start_time, 
+    SELECT log_full_path,
+           s_schedule AS sched_name,
+           date(substr(s_logdate, 1, 4) || '-' || substr(s_logdate, 5, 2) || '-' || substr(s_logdate, 7, 2), 'utc', 'localtime') AS logdate,
+           e_name AS job_name,
+           datetime(substr(e_start_time, 1, 4) || '-' || substr(e_start_time, 5, 2) || '-' || substr(e_start_time, 7, 2) || ' ' || substr(e_start_time, -8), 'utc', 'localtime') AS start_time,
            datetime(substr(e_end_time, 1, 4) || '-' || substr(e_end_time, 5, 2) || '-' || substr(e_end_time, 7, 2) || ' ' || substr(e_end_time, -8), 'utc', 'localtime') AS end_time,
            e_elapsed as runtime,
            (cast(substr(e_elapsed, 1, 2) AS INT) * 60 + cast(substr(e_elapsed, 4, 2) AS INT)) * 60 + cast(substr(e_elapsed, 7, 2) AS INT) AS runtime_n
@@ -147,47 +145,47 @@ conn.executescript('''
     DELETE FROM sso_runtime WHERE logdate > date('now', 'localtime', '-1 days');
 
     CREATE TABLE sched_runtime AS
-    SELECT DISTINCT log_full_path, 
-           sched_name, 
-           logdate, 
+    SELECT DISTINCT log_full_path,
+           sched_name,
+           logdate,
            MAX(strftime('%s', end_time)) - MIN(strftime('%s', start_time)) AS runtime
-      FROM sso_runtime 
-     GROUP BY log_full_path, 
-              sched_name, 
+      FROM sso_runtime
+     GROUP BY log_full_path,
+              sched_name,
               logdate;
 
     CREATE TABLE sched_runtime_daily AS
-    SELECT DISTINCT sched_name AS name, 
-           logdate, 
+    SELECT DISTINCT sched_name AS name,
+           logdate,
            cast(AVG(runtime) AS INT) AS runtime
-      FROM sched_runtime 
+      FROM sched_runtime
      WHERE logdate BETWEEN date('now', 'localtime', '-7 days') AND date('now', 'localtime', '-1 days')
-     GROUP BY name, 
+     GROUP BY name,
               logdate;
 
     CREATE TABLE sched_runtime_weekly AS
-    SELECT DISTINCT sched_name AS name, 
-           date(logdate, 'utc', 'localtime', '1 days', 'weekday 0', '-7 days') AS logdate, 
+    SELECT DISTINCT sched_name AS name,
+           date(logdate, 'utc', 'localtime', '1 days', 'weekday 0', '-7 days') AS logdate,
            cast(AVG(runtime) AS INT) AS runtime
-      FROM sched_runtime 
-     GROUP BY name, 
+      FROM sched_runtime
+     GROUP BY name,
               logdate;
 
     CREATE TABLE job_runtime_daily AS
-    SELECT DISTINCT job_name AS name, 
-           logdate, 
+    SELECT DISTINCT job_name AS name,
+           logdate,
            cast(AVG(runtime_n) AS INT) AS runtime
       FROM sso_runtime
      WHERE logdate BETWEEN date('now', 'localtime', '-7 days') AND date('now', 'localtime', '-1 days')
-     GROUP BY name, 
+     GROUP BY name,
               logdate;
 
     CREATE TABLE job_runtime_weekly AS
-    SELECT DISTINCT job_name AS name, 
-           date(logdate, 'utc', 'localtime', '1 days', 'weekday 0', '-7 days') AS logdate, 
+    SELECT DISTINCT job_name AS name,
+           date(logdate, 'utc', 'localtime', '1 days', 'weekday 0', '-7 days') AS logdate,
            cast(AVG(runtime_n) AS INT) AS runtime
-      FROM sso_runtime 
-     GROUP BY name, 
+      FROM sso_runtime
+     GROUP BY name,
               logdate;
     ''')
 conn.commit()

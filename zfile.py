@@ -1,6 +1,4 @@
-"""
-Tools for processing files.
-"""
+"""Tools for processing files."""
 
 import os
 from shutil import make_archive

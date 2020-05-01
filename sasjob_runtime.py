@@ -1,6 +1,4 @@
-"""Calculate runtime of a sas job from its logs.
-
-"""
+"""Calculate runtime of a sas job from its logs."""
 
 import linecache
 import sys
@@ -66,7 +64,7 @@ def get_finishtime(log_file, n):
 
 
 def get_runtime(starttime, finishtime, timeformat):
-    """Return a timedelta object. 
+    """Return a timedelta object.
 
     """
     return datetime.strptime(finishtime, timeformat) - \
@@ -101,7 +99,7 @@ if __name__ == '__main__':
                     max_runtime = max(max_runtime, runtime)
                     n += 1
                     total_runtime += runtime
-                    runtimes.append(str(runtime) + 
+                    runtimes.append(str(runtime) +
                                     ' (calculated from {})'.format(file))
                 except PatternNotFoundError as e:
                     print(e)
@@ -109,9 +107,9 @@ if __name__ == '__main__':
         max_runtime = max_runtime if max_runtime != timedelta(0) else None
         avg_runtime = str(total_runtime / n).split(sep='.')[0] if n != 0 \
                       else None
-        job_runtime[subdir] = (str(min_runtime), 
-                               str(max_runtime), 
-                               str(avg_runtime), 
+        job_runtime[subdir] = (str(min_runtime),
+                               str(max_runtime),
+                               str(avg_runtime),
                                sorted(runtimes))
 
     output = sys.stdout

@@ -1,6 +1,4 @@
-"""
-Update README.md.
-"""
+"""Update README.md."""
 
 import os
 import sys

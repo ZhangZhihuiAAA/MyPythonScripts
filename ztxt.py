@@ -1,6 +1,4 @@
-"""
-Tools for processing text.
-"""
+"""Tools for processing text."""
 
 import linecache
 from random import SystemRandom
