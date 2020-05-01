@@ -1,15 +1,24 @@
 # MyPythonScripts
 
----
-|Script Name|Summary|
-|---|---|
-|batch_tracker.py |Track the performance of ANF batches. |
-|runtime_pandas.py |An unfinished version of calculating runtime from sso_run_log.xml files using pandas. |
-|runtime_transpose.py |An unfinished version of calculating runtime from sso_run_log.xml files in which I wrote a transpose function. |
-|sasjob_runtime.py |Calculate runtime of a sas job from its logs. |
-|ssorun_runtime_report.py |Calculate runtime from sso_run_log.xml files. |
-|zfile.py |Tools for processing files. |
-|zruntime.py |Ways of calculating runtime. |
-|ztool.py |Just tools. |
-|ztxt.py |Tools for processing text. |
----
+
+<pre>Script Name                   Summary</pre>
+----------------------------------------------------------------------------------------------------
+<pre>sasjob_runtime.py             Calculate runtime of a sas job from its logs.
+
+</pre>
+<pre>ssorun_runtime_report.py      Calculate runtime from sso_run_log.xml files.
+
+</pre>
+<pre>zfile.py                      
+Tools for processing files.
+</pre>
+<pre>zruntime.py                   
+Get runtime of a snippet of python code.
+</pre>
+<pre>ztxt.py                       
+Tools for processing text.
+</pre>
+<pre>zutils.py                     
+Utilities I developed.
+</pre>
+----------------------------------------------------------------------------------------------------

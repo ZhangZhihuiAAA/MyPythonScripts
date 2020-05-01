@@ -1,5 +1,5 @@
-"""Ways of calculating runtime.
-
+"""
+Get runtime of a snippet of python code.
 """
 
 from time import perf_counter as pc
